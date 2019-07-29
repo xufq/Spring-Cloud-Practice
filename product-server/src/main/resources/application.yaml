@@ -1,0 +1,18 @@
+server:
+  port: 8010
+  servlet:
+    context-path: /product-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 20
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8888/eureka-server/eureka
+
+spring:
+  application:
+    name: product-server
