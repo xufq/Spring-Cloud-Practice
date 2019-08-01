@@ -6,15 +6,15 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    lease-expiration-duration-in-seconds: 15
-    lease-renewal-interval-in-seconds: 5
+#    lease-expiration-duration-in-seconds: 20
+#    lease-renewal-interval-in-seconds: 50
   client:
     fetch-registry: false
     register-with-eureka: false
     service-url:
       defaultZone: http://localhost:${server.port}/${spring.application.name}/eureka
-  server:
-    enable-self-preservation: false
+#  server:
+#    enable-self-preservation: false
 
 spring:
   application:
