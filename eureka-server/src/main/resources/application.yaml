@@ -1,18 +1,9 @@
-server:
-  port: 8888
-  servlet:
-    context-path: /eureka-server
-
 eureka:
   instance:
     prefer-ip-address: true
-#    lease-expiration-duration-in-seconds: 20
-#    lease-renewal-interval-in-seconds: 50
   client:
-    fetch-registry: false
-    register-with-eureka: false
-    service-url:
-      defaultZone: http://localhost:${server.port}/${spring.application.name}/eureka
+    fetch-registry: true
+    register-with-eureka: true
 #  server:
 #    enable-self-preservation: false
 
