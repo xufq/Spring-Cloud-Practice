@@ -1,0 +1,18 @@
+server:
+  port: 8012
+  servlet:
+    context-path: /product-server
+
+eureka:
+  instance:
+#    metadata-map:
+#      zone: China
+  client:
+    register-with-eureka: true
+    region: SpringCloud
+    availability-zones:
+      SpringCloud: China,USA
+    service-url:
+      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
+      USA: http://localhost:8083/eureka-server/eureka
+    registry-fetch-interval-seconds: 200

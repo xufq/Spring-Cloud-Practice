@@ -1,18 +1,34 @@
-server:
-  port: 8010
-  servlet:
-    context-path: /product-server
-
 eureka:
   instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-    lease-renewal-interval-in-seconds: 200
-  client:
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8888/eureka-server/eureka
+    prefer-ip-address: true #优先使用IP进行注册
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port} # 注册实例显示的名称
+#    lease-expiration-duration-in-seconds: 90 #最后一次发送心跳间隔90秒后，eureka server将会剔除服务
+#    lease-renewal-interval-in-seconds: 30 #心跳间隔
 
 spring:
   application:
     name: product-server
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000 #超时熔断时间
+
+user-server:
+  ribbon:
+    ConnectionTimeout: 1000
+    ReadTimeout: 1000
+    MaxAutoRetries: 2 #对当前实例的重试次数,LoadBalancerCommand重新请求的次数
+    MaxAutoRetriesNextServer: 3 #切换实例的重试次数,ZoneAwareLoadBalancer重新获得实例的次数
+    NFloadBalancerRuleClassName: com.netflix.loadbalancer.ZoneAvoidanceRule
