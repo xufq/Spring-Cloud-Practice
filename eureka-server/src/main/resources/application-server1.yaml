@@ -1,0 +1,15 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /eureka-server
+eureka:
+  instance:
+    metadata-map:
+      zone: China
+  client:
+    region: SpringCloud
+    availability-zones:
+      SpringCloud: China,USA
+    service-url:
+      China: http://localhost:8081/${spring.application.name}/eureka,http://localhost:8082/${spring.application.name}/eureka
+      USA: http://localhost:8083/${spring.application.name}/eureka
