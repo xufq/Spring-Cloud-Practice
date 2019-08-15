@@ -1,5 +1,6 @@
 package com.xufq.userserver.service;
 
+import com.xufq.userserver.utils.RequestUtil;
 import com.xufq.userserver.vo.UserVo;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,11 @@ public class UserService {
     public UserVo getUserById(String userId){
         return UserVo.builder()
                 .userId(userId)
-                .userName("xufq")
+                .userName(getRequestURL())
                 .build();
+    }
+
+    private String getRequestURL(){
+        return RequestUtil.getRequest().getRequestURL().toString();
     }
 }

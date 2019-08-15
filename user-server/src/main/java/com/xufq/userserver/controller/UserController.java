@@ -26,4 +26,5 @@ public class UserController {
     public UserVo getUserById(@PathVariable String userId) {
         return userService.getUserById(userId);
     }
+
 }
