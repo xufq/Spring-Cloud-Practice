@@ -1,8 +1,3 @@
-server:
-  port: 8020
-  servlet:
-    context-path: /user-server
-
 spring:
   application:
     name: user-server
@@ -11,7 +6,3 @@ eureka:
   instance:
     ip-address: true
     instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-  client:
-    service-url:
-      defaultZone: http://localhost:8888/eureka-server/eureka
-    register-with-eureka: true
