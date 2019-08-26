@@ -1,3 +1,6 @@
+#server:
+#  servlet:
+#    context-path: /product-server
 eureka:
   instance:
     prefer-ip-address: true #优先使用IP进行注册

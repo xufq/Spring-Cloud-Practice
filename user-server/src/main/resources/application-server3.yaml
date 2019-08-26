@@ -1,7 +1,5 @@
 server:
   port: 8023
-  servlet:
-    context-path: /user-server
 eureka:
   instance:
     metadata-map:

@@ -1,7 +1,5 @@
 server:
   port: 8012
-  servlet:
-    context-path: /product-server
 
 eureka:
   instance:
