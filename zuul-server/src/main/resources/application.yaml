@@ -14,20 +14,21 @@ eureka:
 zuul:
   routes:
     product-server:
-      path: /product-server/**
+      path: /productserver/**
       serviceId: product-server
-#      url: http://localhost:8011/product-server
+#      url: http://www.nginxserver.com:8080
       stripPrefix: true
-  ignored-services: '*'
+#  ignored-services: '*'
   prefix: /api
-#product-server:
-#  ribbon:
-##    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
-##    listOfServers: http://example1.com,http://example2.com
-#    ConnectTimeout: 1000
-#    ReadTimeout: 3000
-#    MaxTotalHttpConnections: 500
-#    MaxConnectionsPerHost: 100
+  retryable: true
+product-server:
+  ribbon:
+#    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+#    listOfServers: http://example1.com,http://example2.com
+    ConnectTimeout: 1000
+    ReadTimeout: 3000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
 management:
   endpoints:
     web:
