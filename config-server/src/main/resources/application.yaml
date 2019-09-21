@@ -1,0 +1,17 @@
+server:
+  port: 8071
+  servlet:
+    context-path: /config-server
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xufq/spring-cloud-practice
+          search-paths: config-server/src/main/resources/product
+          username: xufq
+          password: xufq0817
+      label: master

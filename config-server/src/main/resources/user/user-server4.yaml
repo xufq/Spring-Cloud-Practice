@@ -1,0 +1,15 @@
+server:
+  port: 8024
+eureka:
+  instance:
+    metadata-map:
+      zone: USA
+  client:
+    region: SpringCloud
+#    prefer-same-zone-eureka: true
+    availability-zones:
+      SpringCloud: USA,China # 优先使用第一个作为zone
+    service-url:
+      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
+      USA: http://localhost:8083/eureka-server/eureka
+    register-with-eureka: true
