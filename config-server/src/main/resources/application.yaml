@@ -13,5 +13,5 @@ spring:
           uri: https://github.com/xufq/spring-cloud-practice
           search-paths: config-server/src/main/resources/product
           username: xufq
-          password: xufq0817
+          password: 
       label: master
