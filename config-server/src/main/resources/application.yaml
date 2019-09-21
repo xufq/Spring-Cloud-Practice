@@ -11,7 +11,7 @@ spring:
       server:
         git:
           uri: https://github.com/xufq/spring-cloud-practice
-          search-paths: config-server/src/main/resources/product
+          search-paths: config-server/src/main/resources/**
           username: xufq
-          password: xufq0817
+          password: xxx
       label: master
