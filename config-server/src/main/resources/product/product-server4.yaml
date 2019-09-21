@@ -1,20 +1,2 @@
 server:
-  port: 8015
-
-eureka:
-  instance:
-    metadata-map:
-      zone: China
-    lease-expiration-duration-in-seconds: 90
-    lease-renewal-interval-in-seconds: 30
-  client:
-#    prefer-same-zone-eureka: true
-    region: SpringCloud
-    availability-zones:
-      SpringCloud: China,USA
-    service-url:
-      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
-      USA: http://localhost:8083/eureka-server/eureka
-    registry-fetch-interval-seconds: 30 # 从Eureka Server刷新注册列表的间隔
-
-
+  port: 8014
