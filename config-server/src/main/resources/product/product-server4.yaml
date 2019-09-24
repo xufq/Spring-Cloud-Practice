@@ -1,2 +1,4 @@
+server:
+  port: 8014
 product:
   name: product4
