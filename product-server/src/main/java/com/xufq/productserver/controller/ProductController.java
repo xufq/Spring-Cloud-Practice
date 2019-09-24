@@ -3,6 +3,7 @@ package com.xufq.productserver.controller;
 import com.xufq.productserver.service.ProductService;
 import com.xufq.productserver.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,10 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ProductVo getProductById(@PathVariable String productId){
         return productService.getProductById(productId);
+    }
+
+    @DeleteMapping("/{productId}")
+    public void deleteProductById(@PathVariable String productId){
+        return;
     }
 }

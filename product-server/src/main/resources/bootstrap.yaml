@@ -1,3 +1,11 @@
 spring:
   config:
     name: product
+  cloud:
+    config:
+      enabled: true
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+      profile: server4
+      uri: http://localhost:8071
