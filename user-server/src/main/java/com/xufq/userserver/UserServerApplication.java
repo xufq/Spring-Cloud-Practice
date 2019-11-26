@@ -11,7 +11,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @Date 8/1/2019 09:53 PM
  * @Version 1.0
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.xufq.practicecore.aspect",
+        "com.xufq.userserver"})
 @EnableEurekaClient
 public class UserServerApplication {
     public static void main(String[] args) {
