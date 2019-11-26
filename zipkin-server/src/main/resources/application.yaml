@@ -1,0 +1,29 @@
+server:
+  port: 9411
+
+spring:
+  application:
+    name: ziplin-server
+  main:
+    allow-bean-definition-overriding: true
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+    metadata-map:
+      zone: China
+  client:
+    region: SpringCloud
+    #    prefer-same-zone-eureka: true
+    availability-zones:
+      SpringCloud: China,USA # 优先使用第一个作为zone
+    service-url:
+      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
+      USA: http://localhost:8083/eureka-server/eureka
+    register-with-eureka: true
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
