@@ -1,8 +1,18 @@
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"></include>
+
+    <property name="sleuth.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID} --- traceId:[%X{X-B3-TraceId}] foo:[%X{foo}] [%15.15t] %-40.40logger{39} : %m%n">
+    </property>
+    <!--<property name="sleuth.pattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:-}){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}">-->
+    <!--</property>-->
+
+    <property name="file.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|${hostname}|%-5.-5level|%thread|%-45logger{44}|%msg%n"/>
+
+    <property name="stdout.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%c] - %msg%n"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%c] - %msg%n</pattern>
+            <pattern>${sleuth.pattern}</pattern>
         </encoder>
     </appender>
 
@@ -13,11 +23,11 @@
             <fileNamePattern>logs/product-server_%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|${hostname}|%-5.-5level|%thread|%-45logger{44}|%msg%n</pattern>
+            <pattern>${file.pattern}</pattern>
         </encoder>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

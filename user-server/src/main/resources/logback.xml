@@ -1,8 +1,11 @@
 <configuration>
+    <property name="sleuth.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID} --- traceId:[%X{X-B3-TraceId}] foo:[%X{foo}] [%15.15t] %-40.40logger{39} : %m%n">
+    </property>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%c] - %msg%n</pattern>
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%c] - %msg%n</pattern>-->
+            <pattern>${sleuth.pattern}</pattern>
         </encoder>
     </appender>
 
