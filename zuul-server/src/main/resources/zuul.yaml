@@ -10,7 +10,7 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    instance-id: ${spring.application.userName}:${spring.cloud.client.ip-address}:${server.port}
 zuul:
   routes:
     product-server:

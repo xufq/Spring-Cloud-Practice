@@ -11,6 +11,6 @@ eureka:
     availability-zones:
       SpringCloud: USA,China
     service-url:
-      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
-      USA: http://localhost:8083/eureka-server/eureka
+      China: http://root:root@localhost:8081/eureka-server/eureka,http://root:root@localhost:8082/eureka-server/eureka
+      USA: http://root:root@localhost:8083/eureka-server/eureka
     registry-fetch-interval-seconds: 200

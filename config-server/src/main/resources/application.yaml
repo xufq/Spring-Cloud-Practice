@@ -1,7 +1,5 @@
 server:
   port: 8071
-  servlet:
-    context-path: /config-server
 
 spring:
   application:
@@ -13,5 +11,23 @@ spring:
           uri: https://github.com/xufq/spring-cloud-practice
           search-paths: config-server/src/main/resources/product
           username: xufq
-          password: 
+          password: 0817xufq
       label: master
+
+eureka:
+  instance:
+    prefer-ip-address: true #优先使用IP进行注册
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port} # 注册实例显示的名称
+    metadata-map:
+      zone: China
+    lease-expiration-duration-in-seconds: 90
+    lease-renewal-interval-in-seconds: 30
+  client:
+    #    prefer-same-zone-eureka: true
+    region: SpringCloud
+    availability-zones:
+      SpringCloud: China,USA
+    service-url:
+      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
+      USA: http://localhost:8083/eureka-server/eureka
+    registry-fetch-interval-seconds: 30 # 从Eureka Server刷新注册列表的间隔

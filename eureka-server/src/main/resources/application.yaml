@@ -1,9 +1,15 @@
 spring:
   application:
     name: eureka-server
+  security:
+    user:
+      name: root
+      password: root
+
 server:
   servlet:
     context-path: /eureka-server
+
 eureka:
   instance:
     prefer-ip-address: true

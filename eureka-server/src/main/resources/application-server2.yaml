@@ -9,5 +9,5 @@ eureka:
     availability-zones:
       SpringCloud: China,USA
     service-url:
-      China: http://localhost:8082/${spring.application.name}/eureka,http://localhost:8081/${spring.application.name}/eureka
-      USA: http://localhost:8083/${spring.application.name}/eureka
+      China: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8082/${server.servlet.context-path}/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8081/${server.servlet.context-path}/eureka
+      USA: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8083/${server.servlet.context-path}/eureka

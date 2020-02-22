@@ -1,12 +1,20 @@
 package com.xufq.userserver.controller;
 
+import com.google.common.collect.Maps;
+import com.xufq.userserver.bo.UserBo;
 import com.xufq.userserver.service.UserService;
 import com.xufq.userserver.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @ClassName UserController
@@ -23,8 +31,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{userId}")
-    public UserVo getUserById(@PathVariable String userId) {
+    public UserVo getUserById(@PathVariable int userId) {
         return userService.getUserById(userId);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public int saveUser(@RequestBody UserBo userBo) {
+        return userService.saveUser(userBo);
+    }
 }

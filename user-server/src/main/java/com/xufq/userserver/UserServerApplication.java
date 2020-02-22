@@ -1,8 +1,10 @@
 package com.xufq.userserver;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.ApplicationContext;
 
 /**
  * @ClassName UserServerApplication
@@ -11,11 +13,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @Date 8/1/2019 09:53 PM
  * @Version 1.0
  */
-@SpringBootApplication(scanBasePackages = {"com.xufq.practicecore.aspect",
+@SpringBootApplication(scanBasePackages = {"com.xufq.practicecore",
         "com.xufq.userserver"})
 @EnableEurekaClient
+@MapperScan(basePackages = "com.xufq.userserver.dao")
 public class UserServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserServerApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(UserServerApplication.class, args);
     }
 }

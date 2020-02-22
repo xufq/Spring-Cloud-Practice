@@ -3,7 +3,7 @@
 
     <property name="sleuth.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID} --- traceId:[%X{X-B3-TraceId}] foo:[%X{foo}] [%15.15t] %-40.40logger{39} : %m%n">
     </property>
-    <!--<property name="sleuth.pattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:-}){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}">-->
+    <!--<property userName="sleuth.pattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:-}){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}">-->
     <!--</property>-->
 
     <property name="file.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|${hostname}|%-5.-5level|%thread|%-45logger{44}|%msg%n"/>
