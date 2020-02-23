@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufq.userserver.dao.UserDao">
+    <select id="getUser"
+            parameterType="com.xufq.userserver.entity.UserEntity"
+            resultType="com.xufq.userserver.entity.UserEntity">
+        select * from t_user
+        where deleted = 'N'
+        <if test="accountName != null and accountName != ''">
+            and account_name = #{accountName}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+    </select>
+
+    <insert id="saveUser" parameterType="com.xufq.userserver.entity.UserEntity">
+        <selectKey resultType="java.lang.Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_user(account_name, user_name, password, deleted)
+        values(#{accountName}, #{userName}, #{password}, #{deleted})
+    </insert>
+</mapper>
