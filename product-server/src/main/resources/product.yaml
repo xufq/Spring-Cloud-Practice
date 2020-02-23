@@ -38,6 +38,15 @@ spring:
     user:
       name: root
       password: root
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_cloud_practice_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations:
+    - mapper/*.xml
 
 feign:
   hystrix:

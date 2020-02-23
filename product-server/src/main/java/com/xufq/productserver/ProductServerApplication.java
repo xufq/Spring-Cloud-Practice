@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @Date 7/28/2019 11:10 PM
  * @Version 1.0
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients(basePackages = {"com.xufq.productserver.client"})
 @ComponentScan(basePackages = {"com.xufq.practicecore",
