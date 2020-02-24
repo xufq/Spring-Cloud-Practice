@@ -6,6 +6,9 @@
             resultType="com.xufq.userserver.entity.UserEntity">
         select * from t_user
         where deleted = 'N'
+        <if test="id != null">
+            and id = #{id}
+        </if>
         <if test="accountName != null and accountName != ''">
             and account_name = #{accountName}
         </if>

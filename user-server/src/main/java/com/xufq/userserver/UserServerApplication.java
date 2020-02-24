@@ -16,7 +16,6 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication(scanBasePackages = {"com.xufq.practicecore",
         "com.xufq.userserver"})
 @EnableEurekaClient
-@MapperScan(basePackages = "com.xufq.userserver.dao")
 public class UserServerApplication {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(UserServerApplication.class, args);

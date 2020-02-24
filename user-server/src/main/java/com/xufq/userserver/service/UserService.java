@@ -12,6 +12,7 @@ import com.xufq.userserver.utils.EncryptUtil;
 import com.xufq.userserver.vo.ImageCodeVo;
 import com.xufq.userserver.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import java.util.Objects;
 @Transactional(rollbackFor = Exception.class)
 public class UserService {
 
+    public static final String UNDELETED = "N";
     private final UserDao userDao;
 
     public UserService(UserDao userDao) {
@@ -44,9 +46,11 @@ public class UserService {
         }
         ImageCodeVo imageCodeVo = (ImageCodeVo)session.getAttribute(UserConstants.SESSION_CAPTCHA_KEY);
         if(imageCodeVo.getExpiredDate().isBefore(LocalDateTime.now())){
+            // TODO
             throw new BusinessException();
         }
         if(!StringUtils.equals(imageCodeVo.getImageCode(),loginBo.getCaptchaText())){
+            // TODO
             throw new BusinessException();
         }
         UserEntity user = userDao.getUser(UserEntity.builder()
@@ -54,6 +58,7 @@ public class UserService {
                 .password(EncryptUtil.encryptSHA(loginBo.getPassword()))
                 .build());
         if(Objects.isNull(user)){
+            // TODO
             throw new BusinessException();
         }
         session.setAttribute(UserConstants.SESSION_USER_KEY, user);
@@ -64,7 +69,7 @@ public class UserService {
                 .accountName(userBo.getAccountName())
                 .userName(userBo.getUserName())
                 .password(EncryptUtil.encryptSHA(userBo.getPassword()))
-                .deleted("N")
+                .deleted(UNDELETED)
                 .build();
         int saveCount = userDao.saveUser(userEntity);
         if(saveCount == 0){
@@ -75,10 +80,13 @@ public class UserService {
     }
 
     public UserVo getUserById(int userId){
-        return UserVo.builder()
-                .id(userId)
-                .userName(getRequestURL())
-                .build();
+        UserVo userVo = new UserVo();
+        UserEntity userEntity = userDao.getUser(UserEntity.builder().id(userId).build());
+        if(Objects.isNull(userEntity)){
+            throw new BusinessException("User does not exist.");
+        }
+        BeanUtils.copyProperties(userEntity, userVo);
+        return userVo;
     }
 
     private String getRequestURL(){
