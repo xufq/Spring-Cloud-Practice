@@ -2,13 +2,12 @@ package com.xufq.practicecore.exception;
 
 /**
  * @ClassName SessionExpiredException
- * @Description TODO
+ * @Description Session Expired Exception. If to throw this exception, the http status of response is 401.
  * @Author fangqiang.xu
  * @Date 2/7/2020 09:04 PM
  * @Version 1.0
  */
 public class SessionExpiredException extends BaseException {
-
 
     public SessionExpiredException() {
         super();
@@ -18,7 +17,7 @@ public class SessionExpiredException extends BaseException {
         super(errCode);
     }
 
-    public SessionExpiredException(String message, String errCode) {
-        super(message, errCode);
+    public SessionExpiredException(String errCode, String message) {
+        super(errCode, message);
     }
 }

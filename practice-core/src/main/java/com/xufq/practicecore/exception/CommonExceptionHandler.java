@@ -15,12 +15,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @Version 1.0
  */
 @ControllerAdvice
-public class BusinessExceptionHandler {
+public class CommonExceptionHandler {
 
     @ExceptionHandler(SessionExpiredException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public HttpEntity<BaseException> handleSessionExpiredException(SessionExpiredException ex){
+        return new HttpEntity<>(ex);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public HttpEntity<BaseException> handleBusinessException(BusinessException ex){
+        return new HttpEntity<>(ex);
+    }
+
+    @ExceptionHandler(InternalException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public HttpEntity<BaseException> handleInternalException(InternalException ex){
         return new HttpEntity<>(ex);
     }
 }

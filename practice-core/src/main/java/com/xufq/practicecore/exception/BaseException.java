@@ -10,31 +10,51 @@ package com.xufq.practicecore.exception;
 public class BaseException extends RuntimeException {
     private String errCode;
 
-    public BaseException() {
+    private String errMessage;
+
+    protected BaseException() {
         super();
     }
 
-    public BaseException(String errCode) {
+    protected BaseException(String errCode) {
         this.errCode = errCode;
     }
 
-    public BaseException(String message, String errCode) {
+    protected BaseException(String errCode, String message) {
         super(message);
         this.errCode = errCode;
+        this.errMessage = message;
     }
 
-    public BaseException(String message, Throwable cause, String errCode) {
+    protected BaseException(String message, Throwable cause, String errCode) {
         super(message, cause);
         this.errCode = errCode;
+        this.errMessage = message;
     }
 
-    public BaseException(Throwable cause, String errCode) {
+    protected BaseException(Throwable cause, String errCode) {
         super(cause);
         this.errCode = errCode;
     }
 
-    public BaseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String errCode) {
+    protected BaseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String errCode) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.errCode = errCode;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
+    }
+
+    public String getErrMessage() {
+        return errMessage;
+    }
+
+    public void setErrMessage(String errMessage) {
+        this.errMessage = errMessage;
     }
 }
