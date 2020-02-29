@@ -1,11 +1,10 @@
 package com.xufq.practicecore.exception;
 
-import org.springframework.http.HttpEntity;
+import com.xufq.practicecore.vo.HttpErrorResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @ClassName ExceptionHandler
@@ -14,27 +13,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @Date 2/7/2020 09:24 PM
  * @Version 1.0
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class CommonExceptionHandler {
 
     @ExceptionHandler(SessionExpiredException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ResponseBody
-    public HttpEntity<BaseException> handleSessionExpiredException(SessionExpiredException ex){
-        return new HttpEntity<>(ex);
+    public HttpErrorResponse handleSessionExpiredException(SessionExpiredException ex) {
+        return convertException(ex);
     }
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public HttpEntity<BaseException> handleBusinessException(BusinessException ex){
-        return new HttpEntity<>(ex);
+    public HttpErrorResponse handleBusinessException(BusinessException ex) {
+        return convertException(ex);
     }
 
     @ExceptionHandler(InternalException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public HttpEntity<BaseException> handleInternalException(InternalException ex){
-        return new HttpEntity<>(ex);
+    public HttpErrorResponse handleInternalException(InternalException ex) {
+        return convertException(ex);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public HttpErrorResponse handleUnexpectedException(Throwable ex) {
+        return new HttpErrorResponse();
+    }
+
+    private HttpErrorResponse convertException(BaseException ex) {
+        return new HttpErrorResponse(ex.getErrCode(), ex.getErrMessage());
     }
 }
