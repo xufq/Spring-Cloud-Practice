@@ -26,8 +26,8 @@ spring:
     password: root
   security:
     user:
-      name: root
-      password: root
+      name: userserver
+      password: userserver
 
 mybatis:
   mapper-locations:
@@ -35,7 +35,7 @@ mybatis:
 
 eureka:
   instance:
-    instance-id: ${spring.application.userName}:${spring.cloud.client.ip-address}:${server.port}
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
     prefer-ip-address: true
 
 com:

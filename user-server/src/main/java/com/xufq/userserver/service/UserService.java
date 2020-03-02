@@ -1,23 +1,16 @@
 package com.xufq.userserver.service;
 
 import com.xufq.practicecore.exception.BusinessException;
-import com.xufq.practicecore.exception.SessionExpiredException;
 import com.xufq.practicecore.utils.RequestUtil;
-import com.xufq.userserver.bo.LoginBo;
 import com.xufq.userserver.bo.UserBo;
-import com.xufq.userserver.constants.UserConstants;
 import com.xufq.userserver.dao.UserDao;
 import com.xufq.userserver.entity.UserEntity;
 import com.xufq.userserver.utils.EncryptUtil;
-import com.xufq.userserver.vo.ImageCodeVo;
 import com.xufq.userserver.vo.UserVo;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -36,32 +29,6 @@ public class UserService {
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    public void validateUser(LoginBo loginBo){
-
-        HttpSession session = RequestUtil.getRequest().getSession();
-        if(Objects.isNull(session)){
-            throw new SessionExpiredException();
-        }
-        ImageCodeVo imageCodeVo = (ImageCodeVo)session.getAttribute(UserConstants.SESSION_CAPTCHA_KEY);
-        if(imageCodeVo.getExpiredDate().isBefore(LocalDateTime.now())){
-            // TODO
-            throw new BusinessException();
-        }
-        if(!StringUtils.equals(imageCodeVo.getImageCode(),loginBo.getCaptchaText())){
-            // TODO
-            throw new BusinessException();
-        }
-        UserEntity user = userDao.getUser(UserEntity.builder()
-                .accountName(loginBo.getAccountName())
-                .password(EncryptUtil.encryptSHA(loginBo.getPassword()))
-                .build());
-        if(Objects.isNull(user)){
-            // TODO
-            throw new BusinessException();
-        }
-        session.setAttribute(UserConstants.SESSION_USER_KEY, user);
     }
 
     public int saveUser(UserBo userBo){
