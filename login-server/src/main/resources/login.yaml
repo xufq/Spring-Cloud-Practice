@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: login
+  security:
+    user:
+      name: root
+      password: root
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_cloud_practice_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    username: root
+    password: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@localhost:8081/eureka-server/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+
+mybatis:
+  mapper-locations:
+    - mapper/*.xml
+
+com:
+  xufq:
+    enable-controller-log: true
+    enable-service-span: true

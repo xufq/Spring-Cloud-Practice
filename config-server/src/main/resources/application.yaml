@@ -11,8 +11,12 @@ spring:
           uri: https://github.com/xufq/spring-cloud-practice
           search-paths: config-server/src/main/resources/product
           username: xufq
-          password: 
-      label: master
+          password:
+      label: dev
+  security:
+    user:
+      name: root
+      password: root
 
 eureka:
   instance:

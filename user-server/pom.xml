@@ -11,9 +11,6 @@
 
     <artifactId>user-server</artifactId>
 
-    <properties>
-        <practice-core.version>0.0.1-SNAPSHOT</practice-core.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -22,7 +19,7 @@
         <dependency>
             <groupId>com.xufq</groupId>
             <artifactId>practice-core</artifactId>
-            <version>${practice-core.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

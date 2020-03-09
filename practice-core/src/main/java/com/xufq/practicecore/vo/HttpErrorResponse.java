@@ -22,6 +22,7 @@ public class HttpErrorResponse {
     private LocalDateTime timeStamps;
 
     public HttpErrorResponse() {
+        this.timeStamps = LocalDateTime.now();
     }
 
     public HttpErrorResponse(String errCode, String errMessage) {

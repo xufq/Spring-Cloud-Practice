@@ -9,19 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>product-server</artifactId>
-
+    <artifactId>login-server</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.xufq</groupId>
             <artifactId>practice-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -30,4 +26,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

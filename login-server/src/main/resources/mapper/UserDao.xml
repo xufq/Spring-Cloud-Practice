@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufq.loginserver.dao.UserDao">
+    <resultMap id="BaseUserMap" type="com.xufq.loginserver.vo.UserVo">
+        <result property="accountName" column="account_name"/>
+        <result property="userName" column="user_name"/>
+        <collection property="roles" column="id" ofType="com.xufq.loginserver.vo.RoleVo" select="getRole"/>
+    </resultMap>
+
+    <select id="getUser"
+            parameterType="com.xufq.loginserver.entity.UserEntity"
+            resultMap="BaseUserMap">
+        select t1.id,
+        t1.account_name,
+        t1.user_name
+        from t_user t1
+        inner join t_user_role t2
+        on t1.id = t2.user_id
+        and t2.deleted = 'N'
+        inner join t_role t3
+        on t2.role_id = t3.id
+        and t3.deleted = 'N'
+        where t1.deleted = 'N'
+        <if test="accountName != null and accountName != ''">
+            and t1.account_name = #{accountName}
+        </if>
+        <if test="password != null and password != ''">
+            and t1.password = #{password}
+        </if>
+    </select>
+
+    <select id="getRole" parameterType="java.lang.Integer" resultType="com.xufq.loginserver.vo.RoleVo">
+        select t3.role_code,
+        t3.role_name
+        from t_user_role t2
+        inner join t_role t3
+        on t2.role_id = t3.id
+        and t3.deleted = 'N'
+        where t2.deleted = 'N'
+        <if test="id != null">
+            and t2.user_id = #{id}
+        </if>
+    </select>
+</mapper>

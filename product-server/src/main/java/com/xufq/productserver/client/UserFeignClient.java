@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeignClient {
 
     @GetMapping("/user/{userId}")
-    UserVo getUserById(@PathVariable String userId);
+    UserVo getUserById(@PathVariable("userId") String userId);
 
     @Component
     class UserFeignClientFallback implements UserFeignClient{

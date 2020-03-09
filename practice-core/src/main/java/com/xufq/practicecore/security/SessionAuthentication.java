@@ -1,9 +1,11 @@
 package com.xufq.practicecore.security;
 
+import com.xufq.practicecore.utils.RequestUtil;
+import com.xufq.practicecore.vo.UserVo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.util.CollectionUtils;
 
-import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,12 +19,25 @@ import java.util.List;
  */
 public class SessionAuthentication implements Authentication {
 
+    private String sessionId;
     private boolean authenticated;
     private List<GrantedAuthority> authorities = new ArrayList<>();
+    private UserVo user;
+
+    public SessionAuthentication(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public SessionAuthentication(UserVo user) {
+        this.user = user;
+        if(!CollectionUtils.isEmpty(user.getRoles())){
+            this.user.getRoles().forEach(roleVo -> authorities.add(new SimpleGrantedAuthority(roleVo.getRoleCode())));
+        }
+    }
 
     @Override
     public String getName() {
-        return null;
+        return user.getAccountName();
     }
 
     @Override
@@ -32,17 +47,17 @@ public class SessionAuthentication implements Authentication {
 
     @Override
     public Object getCredentials() {
-        return null;
+        return sessionId;
     }
 
     @Override
     public Object getDetails() {
-        return null;
+        return user;
     }
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return user.getAccountName();
     }
 
     @Override
@@ -51,7 +66,20 @@ public class SessionAuthentication implements Authentication {
     }
 
     @Override
-    public void setAuthenticated(boolean authenticated) throws IllegalArgumentException {
+    public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
+    }
+
+    private class SimpleGrantedAuthority implements GrantedAuthority{
+        private String role;
+
+        public SimpleGrantedAuthority(String role) {
+            this.role = role;
+        }
+
+        @Override
+        public String getAuthority() {
+            return role;
+        }
     }
 }

@@ -1,13 +1,17 @@
 package com.xufq.practicecore.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @ClassName SecurityConfiguration
@@ -18,45 +22,41 @@ import org.springframework.security.config.http.SessionCreationPolicy;
  */
 @Configuration
 @EnableWebSecurity
+@ConditionalOnProperty("spring.security.user.name")
+@DependsOn(value = {"securityProperties"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    @Autowired
+    private SessionAuthenticationFilter filter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest()
-                .permitAll()
+                .antMatchers("/login", "/captcha").permitAll()
+                .anyRequest().authenticated()
                 .and()
-//                .authorizeRequests()
-//                .antMatchers("/**")
-//                .authenticated()
-//                .anyRequest()
-//                .hasRole("HTTP_BASIC")
-//                .and()
                 .httpBasic()
-//                .disable()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin()
                 .disable()
                 .logout()
-//                .permitAll();
                 .disable()
                 .csrf()
-                .disable();
-        super.configure(http);
+                .disable()
+                .addFilterAfter(filter, BasicAuthenticationFilter.class);
     }
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                //admin
-//                .withUser("admin").password("123456").roles("EUREKA-CLIENT")
-//                //eureka-security-client
-//                .and()
-//                .withUser("root").password("root").roles("EUREKA-CLIENT")
-//        ;
-//    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        UserDetailsManagerConfigurer.UserDetailsBuilder builder = auth
+                .inMemoryAuthentication()
+                .passwordEncoder(passwordEncoder)
+                .withUser(securityProperties.getName()).password(passwordEncoder.encode(securityProperties.getPassword()));
+        securityProperties.getRoles().stream().map(role -> builder.roles(role)).findAny().orElse(builder.roles("HTTP_BASIC"));
+    }
 }

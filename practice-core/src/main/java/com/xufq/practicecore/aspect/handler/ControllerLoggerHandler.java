@@ -48,7 +48,7 @@ public class ControllerLoggerHandler {
             try {
                 return JSON_MAPPER.writeValueAsString(param);
             } catch (JsonProcessingException ex) {
-                return Optional.of(param).orElse("null").toString();
+                return Optional.ofNullable(param).orElse("null").toString();
             }
         }).collect(Collectors.toList());
         return params.stream().collect(Collectors.joining(","));

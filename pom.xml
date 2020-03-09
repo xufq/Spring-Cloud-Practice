@@ -23,6 +23,7 @@
         <module>product-server</module>
         <module>user-server</module>
         <module>zipkin-server</module>
+        <module>login-server</module>
     </modules>
 
     <properties>
