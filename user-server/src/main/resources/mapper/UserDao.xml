@@ -24,4 +24,27 @@
         insert into t_user(account_name, user_name, password, deleted)
         values(#{accountName}, #{userName}, #{password}, #{deleted})
     </insert>
+
+    <update id="updateUser" parameterType="com.xufq.userserver.entity.UserEntity">
+        update t_user
+        <set>
+            <if test="user_name != null and user_name !=''">
+                user_name = #{userName}
+            </if>
+            <if test="password != null and password !=''">
+                password = #{password}
+            </if>
+            <if test="deleted != null and deleted != ''">
+                deleted = #{deleted}
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="accountName != null and accountName != ''">
+                account_name = #{accountName}
+            </if>
+        </where>
+    </update>
 </mapper>

@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @Version 1.0
  */
 @EnableEurekaClient
-@SpringBootApplication(scanBasePackages = {"com.xufq.practicecore", "com.xufq.loginserver"})
+@SpringBootApplication(scanBasePackages = {"com.xufq.loginserver"})
 public class LoginServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(LoginServerApplication.class, args);

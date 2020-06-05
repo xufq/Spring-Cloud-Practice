@@ -16,4 +16,6 @@ public interface UserDao {
     UserEntity getUser(UserEntity user);
 
     int saveUser(UserEntity user);
+
+    int updateUser(UserEntity user);
 }

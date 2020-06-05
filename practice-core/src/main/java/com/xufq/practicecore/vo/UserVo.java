@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,9 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserVo {
+public class UserVo implements Serializable {
+    private static final long serialVersionUID = -1L;
+
     private String accountName;
     private String userName;
+    private String password;
     private List<RoleVo> roles;
     private LocalDateTime expiredDate;
 }

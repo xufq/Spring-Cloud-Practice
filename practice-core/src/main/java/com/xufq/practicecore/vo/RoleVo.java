@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @ClassName RoleVo
  * @Description TODO
@@ -14,7 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RoleVo {
+public class RoleVo implements Serializable {
+    private static final long serialVersionUID = -1L;
     private String roleCode;
     private String roleName;
 }

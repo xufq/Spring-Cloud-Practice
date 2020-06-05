@@ -1,8 +1,6 @@
 package com.xufq.practicecore.vo;
 
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

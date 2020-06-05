@@ -1,16 +1,18 @@
 package com.xufq.practicecore.security;
 
+import com.xufq.practicecore.client.LoginFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
@@ -22,21 +24,32 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  */
 @Configuration
 @EnableWebSecurity
-@ConditionalOnProperty("spring.security.user.name")
-@DependsOn(value = {"securityProperties"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    @Value("${com.xufq.security.basic.user-name}")
+    private String userName;
 
-    @Autowired
-    private SessionAuthenticationFilter filter;
+    @Value("${com.xufq.security.basic.password}")
+    private String password;
+
+    private final LoginFeignClient loginFeignClient;
+
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    public SecurityConfiguration(LoginFeignClient loginFeignClient, TokenAuthenticationFilter tokenAuthenticationFilter) {
+        this.loginFeignClient = loginFeignClient;
+        this.tokenAuthenticationFilter = tokenAuthenticationFilter;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        tokenAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
         http
+                .addFilterAfter(tokenAuthenticationFilter, BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login", "/captcha").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
@@ -46,17 +59,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .disable()
                 .csrf()
-                .disable()
-                .addFilterAfter(filter, BasicAuthenticationFilter.class);
+                .disable();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        UserDetailsManagerConfigurer.UserDetailsBuilder builder = auth
-                .inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder)
-                .withUser(securityProperties.getName()).password(passwordEncoder.encode(securityProperties.getPassword()));
-        securityProperties.getRoles().stream().map(role -> builder.roles(role)).findAny().orElse(builder.roles("HTTP_BASIC"));
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        auth.authenticationProvider(new TokenAuthenticationProvider(loginFeignClient))
+                .inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(userName).password(passwordEncoder.encode(password)).roles("ADMIN");
     }
+
 }

@@ -1,12 +1,15 @@
 package com.xufq.userserver.service;
 
+import com.xufq.practicecore.constants.Constants;
 import com.xufq.practicecore.exception.BusinessException;
-import com.xufq.practicecore.utils.RequestUtil;
+import com.xufq.practicecore.exception.InternalException;
+import com.xufq.practicecore.utils.EncryptUtil;
+import com.xufq.userserver.bo.PasswordBo;
 import com.xufq.userserver.bo.UserBo;
 import com.xufq.userserver.dao.UserDao;
 import com.xufq.userserver.entity.UserEntity;
-import com.xufq.userserver.utils.EncryptUtil;
 import com.xufq.userserver.vo.UserVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +18,7 @@ import java.util.Objects;
 
 /**
  * @ClassName UserService
- * @Description TODO
+ * @Description manage user info
  * @Author fangqiang.xu
  * @Date 8/1/2019 10:13 PM
  * @Version 1.0
@@ -24,39 +27,94 @@ import java.util.Objects;
 @Transactional(rollbackFor = Exception.class)
 public class UserService {
 
-    public static final String UNDELETED = "N";
     private final UserDao userDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public int saveUser(UserBo userBo){
+    public int saveUser(UserBo userBo) {
         UserEntity userEntity = UserEntity.builder()
                 .accountName(userBo.getAccountName())
                 .userName(userBo.getUserName())
-                .password(EncryptUtil.encryptSHA(userBo.getPassword()))
-                .deleted(UNDELETED)
+                .password(EncryptUtil.encode(userBo.getPassword()))
+                .deleted(Constants.UNDELETED)
                 .build();
         int saveCount = userDao.saveUser(userEntity);
-        if(saveCount == 0){
+        if (saveCount == 0) {
             throw new BusinessException();
         }
         return userEntity.getId();
 
     }
 
-    public UserVo getUserById(int userId){
+    public UserVo getUserById(int userId) {
         UserVo userVo = new UserVo();
         UserEntity userEntity = userDao.getUser(UserEntity.builder().id(userId).build());
-        if(Objects.isNull(userEntity)){
+        if (Objects.isNull(userEntity)) {
             throw new BusinessException("User does not exist.");
         }
         BeanUtils.copyProperties(userEntity, userVo);
         return userVo;
     }
 
-    private String getRequestURL(){
-        return RequestUtil.getRequest().getRequestURL().toString();
+    public UserVo getUserByAccountName(String accountName) {
+        UserVo userVo = new UserVo();
+        UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(accountName).build());
+        if (Objects.isNull(userEntity)) {
+            throw new BusinessException("User does not exist.");
+        }
+        BeanUtils.copyProperties(userEntity, userVo);
+        return userVo;
+    }
+
+    public void updateUserInfo(UserBo userBo) {
+        UserEntity userEntity = UserEntity.builder().build();
+        BeanUtils.copyProperties(userBo, userEntity);
+        int updateCount = userDao.updateUser(userEntity);
+        if (updateCount == 0) {
+            throw new BusinessException("Update user name failed!");
+        }
+
+    }
+
+    public void updatePassword(PasswordBo passwordBo){
+        if(!StringUtils.equals(passwordBo.getNewPassword(), passwordBo.getConfirmPassword())){
+            throw new BusinessException("Password confirm is different with new password!");
+        }
+        UserEntity paramEntity = UserEntity.builder()
+                .accountName(passwordBo.getAccountName())
+                .build();
+        UserEntity userEntity = userDao.getUser(paramEntity);
+        if(Objects.isNull(userEntity) || !EncryptUtil.match(passwordBo.getOldPassword(), userEntity.getPassword())){
+            throw new BusinessException("Account name or old password is wrong!");
+        }
+        userEntity = UserEntity.builder()
+                .accountName(passwordBo.getAccountName())
+                .password(EncryptUtil.encode(passwordBo.getNewPassword()))
+                .build();
+        int updateCount = userDao.updateUser(userEntity);
+        if(updateCount ==0){
+            throw new InternalException("Update password failed!");
+        }
+
+    }
+
+    public void deleteUser(String accountName){
+        UserEntity paramEntity = UserEntity.builder()
+                .accountName(accountName)
+                .build();
+        UserEntity userEntity = userDao.getUser(paramEntity);
+        if(Objects.isNull(userEntity)){
+            throw new BusinessException("User does not exist!");
+        }
+        userEntity = UserEntity.builder()
+                .accountName(accountName)
+                .deleted(Constants.DELETED)
+                .build();
+        int updateCount = userDao.updateUser(userEntity);
+        if(updateCount ==0){
+            throw new InternalException("Delete user failed!");
+        }
     }
 }

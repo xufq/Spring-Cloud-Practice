@@ -1,8 +1,14 @@
 package com.xufq.practicecore.client;
 
+import com.xufq.practicecore.config.LoginFeignClientConfiguration;
+import com.xufq.practicecore.constants.Constants;
 import com.xufq.practicecore.vo.UserVo;
+import feign.Headers;
+import feign.Param;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName LoginFeignClient
@@ -11,9 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @Date 3/2/2020 08:45 PM
  * @Version 1.0
  */
-@FeignClient(name = "login-server")
+@FeignClient(name = "login-server", configuration = {LoginFeignClientConfiguration.class})
+@RequestMapping(value = "/login")
 public interface LoginFeignClient {
 
-    @GetMapping("/login/validate")
-    UserVo validate();
+    @GetMapping(value = "/validate")
+    UserVo validate(@RequestHeader(Constants.TOKEN) String token);
 }

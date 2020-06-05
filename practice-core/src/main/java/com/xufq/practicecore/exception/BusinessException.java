@@ -1,5 +1,7 @@
 package com.xufq.practicecore.exception;
 
+import com.xufq.practicecore.constants.ErrorCode;
+
 /**
  * @ClassName BusinessException
  * @Description Business Exception. If to throw this exception, the http status of response is 400.
@@ -9,6 +11,8 @@ package com.xufq.practicecore.exception;
  */
 public class BusinessException extends BaseException {
     public BusinessException() {}
+
+    public BusinessException(ErrorCode errorCode){ super(errorCode.name());}
 
     public BusinessException(String errCode) {
         super(errCode);

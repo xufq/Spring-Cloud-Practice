@@ -1,6 +1,5 @@
 package com.xufq.loginserver.vo;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
  * @Version 1.0
  */
 @Data
-@Builder
 public class ImageCodeVo implements Serializable {
     private static final long serialVersionUID = 1L;
 

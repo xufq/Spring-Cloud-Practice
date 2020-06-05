@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName UserEntity
- * @Description TODO
+ * @ClassName UserBo
+ * @Description create user
  * @Author fangqiang.xu
  * @Date 2/7/2020 07:35 PM
  * @Version 1.0

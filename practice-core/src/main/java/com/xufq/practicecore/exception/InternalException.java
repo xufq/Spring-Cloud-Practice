@@ -1,5 +1,7 @@
 package com.xufq.practicecore.exception;
 
+import com.xufq.practicecore.constants.ErrorCode;
+
 /**
  * @ClassName InternalException
  * @Description Internal Exception. If to throw this exception, http status of response is 500.
@@ -10,6 +12,8 @@ package com.xufq.practicecore.exception;
 public class InternalException extends BaseException {
     public InternalException() {
     }
+
+    public InternalException(ErrorCode errorCode){ super(errorCode.name());}
 
     public InternalException(String errCode) {
         super(errCode);
