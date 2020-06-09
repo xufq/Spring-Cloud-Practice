@@ -30,7 +30,7 @@ import java.util.List;
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    @Value("${com.xufq.security.not-filter-urls:null}")
+    @Value("#{'${com.xufq.security.not-filter-urls:\"\"}'.split(',')}")
     private List<String> notFilterUrls;
 
     private AuthenticationManager authenticationManager;

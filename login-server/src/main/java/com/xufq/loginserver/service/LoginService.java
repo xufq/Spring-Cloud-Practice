@@ -62,15 +62,11 @@ public class LoginService {
         }
         user.setExpiredDate(LocalDateTime.now().plus(expireTime, MINUTES));
         String token = UUIDUtil.getUUID();
-        redisUtil.set(getUserInfoKey(token), user);
+        redisUtil.set(redisUtil.getUserInfoKey(token), user);
         return token;
     }
 
     public UserVo validateUser(String token) {
-        return redisUtil.get(getUserInfoKey(token));
-    }
-
-    private String getUserInfoKey(String token){
-        return "UserInfoKey:"+token;
+        return redisUtil.get(redisUtil.getUserInfoKey(token));
     }
 }

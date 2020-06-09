@@ -24,10 +24,22 @@ public class RedisUtil {
     public <T> T get(String key) {
         try {
             ValueOperations operations = redisTemplate.opsForValue();
-            return (T)operations.get(key);
+            return (T) operations.get(key);
         } catch (Exception ex) {
-            log.warning("Redis类型转换失败。key: "+key);
+            log.warning("Redis类型转换失败。key: " + key);
         }
         return null;
+    }
+
+    public boolean del(String key) {
+        return redisTemplate.delete(key);
+    }
+
+    public String getUserInfoKey(String token) {
+        StringBuffer s = new StringBuffer();
+        s.append("UserInfoKey")
+                .append(":")
+                .append(token);
+        return s.toString();
     }
 }

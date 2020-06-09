@@ -45,6 +45,4 @@ com:
       basic:
         user-name: userserver
         password: userserver
-      not-filter-urls:
-        - /user/**
-        - /product/**
+#      not-filter-urls: /user/**,/product/**
