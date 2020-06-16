@@ -28,7 +28,7 @@
     <update id="updateUser" parameterType="com.xufq.userserver.entity.UserEntity">
         update t_user
         <set>
-            <if test="user_name != null and user_name !=''">
+            <if test="userName != null and userName !=''">
                 user_name = #{userName}
             </if>
             <if test="password != null and password !=''">
