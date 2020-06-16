@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CommonExceptionHandler {
 
-    @ExceptionHandler(SessionExpiredException.class)
+    @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public HttpErrorResponse handleSessionExpiredException(SessionExpiredException ex) {
+    public HttpErrorResponse handleSessionExpiredException(UnauthorizedException ex) {
         return convertException(ex);
     }
 
-    @ExceptionHandler(BusinessException.class)
+    @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HttpErrorResponse handleBusinessException(BusinessException ex) {
+    public HttpErrorResponse handleBusinessException(BadRequestException ex) {
         return convertException(ex);
     }
 
-    @ExceptionHandler(InternalException.class)
+    @ExceptionHandler(InternalServerErrorException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public HttpErrorResponse handleInternalException(InternalException ex) {
+    public HttpErrorResponse handleInternalException(InternalServerErrorException ex) {
         return convertException(ex);
     }
 

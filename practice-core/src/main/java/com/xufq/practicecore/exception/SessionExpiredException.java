@@ -9,11 +9,7 @@ import com.xufq.practicecore.constants.ErrorCode;
  * @Date 2/7/2020 09:04 PM
  * @Version 1.0
  */
-public class SessionExpiredException extends BaseException {
-
-    public SessionExpiredException() {
-        super();
-    }
+public class SessionExpiredException extends UnauthorizedException {
 
     public SessionExpiredException(ErrorCode errorCode){ super(errorCode.name());}
 

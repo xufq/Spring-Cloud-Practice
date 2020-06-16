@@ -12,7 +12,7 @@ public class BaseException extends RuntimeException {
 
     private String errMessage;
 
-    protected BaseException() {
+    BaseException() {
         super();
     }
 
@@ -26,18 +26,18 @@ public class BaseException extends RuntimeException {
         this.errMessage = message;
     }
 
-    protected BaseException(String message, Throwable cause, String errCode) {
+    BaseException(String message, Throwable cause, String errCode) {
         super(message, cause);
         this.errCode = errCode;
         this.errMessage = message;
     }
 
-    protected BaseException(Throwable cause, String errCode) {
+    BaseException(Throwable cause, String errCode) {
         super(cause);
         this.errCode = errCode;
     }
 
-    protected BaseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String errCode) {
+    BaseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String errCode) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.errCode = errCode;
     }

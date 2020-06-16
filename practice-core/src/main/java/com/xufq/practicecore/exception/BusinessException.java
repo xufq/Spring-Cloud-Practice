@@ -9,8 +9,7 @@ import com.xufq.practicecore.constants.ErrorCode;
  * @Date 2/7/2020 09:32 PM
  * @Version 1.0
  */
-public class BusinessException extends BaseException {
-    public BusinessException() {}
+public class BusinessException extends BadRequestException {
 
     public BusinessException(ErrorCode errorCode){ super(errorCode.name());}
 
