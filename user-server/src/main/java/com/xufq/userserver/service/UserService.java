@@ -2,12 +2,15 @@ package com.xufq.userserver.service;
 
 import com.xufq.practicecore.constants.Constants;
 import com.xufq.practicecore.exception.BusinessException;
-import com.xufq.practicecore.exception.InternalException;
+import com.xufq.practicecore.exception.InternalServerErrorException;
 import com.xufq.practicecore.utils.EncryptUtil;
 import com.xufq.userserver.bo.PasswordBo;
 import com.xufq.userserver.bo.UserBo;
 import com.xufq.userserver.dao.UserDao;
 import com.xufq.userserver.entity.UserEntity;
+import com.xufq.userserver.exception.ErrorCode;
+import com.xufq.userserver.exception.NotFoundResourceException;
+import com.xufq.userserver.exception.SaveOrUpdateException;
 import com.xufq.userserver.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -42,7 +45,7 @@ public class UserService {
                 .build();
         int saveCount = userDao.saveUser(userEntity);
         if (saveCount == 0) {
-            throw new BusinessException();
+            throw new SaveOrUpdateException(ErrorCode.USER_SAVE_ERROR);
         }
         return userEntity.getId();
 
@@ -52,7 +55,7 @@ public class UserService {
         UserVo userVo = new UserVo();
         UserEntity userEntity = userDao.getUser(UserEntity.builder().id(userId).build());
         if (Objects.isNull(userEntity)) {
-            throw new BusinessException("User does not exist.");
+            throw new NotFoundResourceException(ErrorCode.USER_NOT_FOUND);
         }
         BeanUtils.copyProperties(userEntity, userVo);
         return userVo;
@@ -62,7 +65,7 @@ public class UserService {
         UserVo userVo = new UserVo();
         UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(accountName).build());
         if (Objects.isNull(userEntity)) {
-            throw new BusinessException("User does not exist.");
+            throw new NotFoundResourceException(ErrorCode.USER_NOT_FOUND);
         }
         BeanUtils.copyProperties(userEntity, userVo);
         return userVo;
@@ -73,7 +76,7 @@ public class UserService {
         BeanUtils.copyProperties(userBo, userEntity);
         int updateCount = userDao.updateUser(userEntity);
         if (updateCount == 0) {
-            throw new BusinessException("Update user name failed!");
+            throw new SaveOrUpdateException(ErrorCode.USER_UPDATE_ERROR);
         }
 
     }
@@ -95,7 +98,7 @@ public class UserService {
                 .build();
         int updateCount = userDao.updateUser(userEntity);
         if(updateCount ==0){
-            throw new InternalException("Update password failed!");
+            throw new InternalServerErrorException("Update password failed!");
         }
 
     }
@@ -114,7 +117,7 @@ public class UserService {
                 .build();
         int updateCount = userDao.updateUser(userEntity);
         if(updateCount ==0){
-            throw new InternalException("Delete user failed!");
+            throw new InternalServerErrorException("Delete user failed!");
         }
     }
 }

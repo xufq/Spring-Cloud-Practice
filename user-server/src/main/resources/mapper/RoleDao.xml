@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufq.userserver.dao.RoleDao">
+    <select id="getRole"
+            parameterType="com.xufq.userserver.entity.RoleEntity"
+            resultType="com.xufq.userserver.entity.RoleEntity">
+        select * from t_role
+        where deleted = 'N'
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            and role_code = #{roleCode}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and role_name = #{roleName}
+        </if>
+    </select>
+
+    <insert id="saveRole" parameterType="com.xufq.userserver.entity.RoleEntity">
+        <selectKey resultType="java.lang.Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_role(role_code, role_name, deleted)
+        values(#{roleCode}, #{roleName}, #{deleted})
+    </insert>
+
+    <update id="updateRole" parameterType="com.xufq.userserver.entity.RoleEntity">
+        update t_role
+        <set>
+            <if test="roleCode != null and roleCode !=''">
+                role_code = #{roleCode}
+            </if>
+            <if test="roleName != null and roleName !=''">
+                role_name = #{roleName}
+            </if>
+            <if test="deleted != null and deleted != ''">
+                deleted = #{deleted}
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+</mapper>
