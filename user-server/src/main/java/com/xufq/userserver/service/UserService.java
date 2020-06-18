@@ -1,7 +1,6 @@
 package com.xufq.userserver.service;
 
 import com.xufq.practicecore.constants.Constants;
-import com.xufq.practicecore.exception.BusinessException;
 import com.xufq.practicecore.exception.InternalServerErrorException;
 import com.xufq.practicecore.utils.EncryptUtil;
 import com.xufq.userserver.bo.PasswordBo;
@@ -11,6 +10,7 @@ import com.xufq.userserver.entity.UserEntity;
 import com.xufq.userserver.exception.ErrorCode;
 import com.xufq.userserver.exception.NotFoundResourceException;
 import com.xufq.userserver.exception.SaveOrUpdateException;
+import com.xufq.userserver.exception.BusinessException;
 import com.xufq.userserver.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -83,14 +83,14 @@ public class UserService {
 
     public void updatePassword(PasswordBo passwordBo){
         if(!StringUtils.equals(passwordBo.getNewPassword(), passwordBo.getConfirmPassword())){
-            throw new BusinessException("Password confirm is different with new password!");
+            throw new BusinessException(ErrorCode.CONFIRM_PASSWORD_ERROR);
         }
         UserEntity paramEntity = UserEntity.builder()
                 .accountName(passwordBo.getAccountName())
                 .build();
         UserEntity userEntity = userDao.getUser(paramEntity);
         if(Objects.isNull(userEntity) || !EncryptUtil.match(passwordBo.getOldPassword(), userEntity.getPassword())){
-            throw new BusinessException("Account name or old password is wrong!");
+            throw new BusinessException(ErrorCode.USERID_PASSWORD_ERROR);
         }
         userEntity = UserEntity.builder()
                 .accountName(passwordBo.getAccountName())
@@ -98,7 +98,7 @@ public class UserService {
                 .build();
         int updateCount = userDao.updateUser(userEntity);
         if(updateCount ==0){
-            throw new InternalServerErrorException("Update password failed!");
+            throw new SaveOrUpdateException(ErrorCode.PASSWORD_UPDATE_ERROR);
         }
 
     }
@@ -109,7 +109,7 @@ public class UserService {
                 .build();
         UserEntity userEntity = userDao.getUser(paramEntity);
         if(Objects.isNull(userEntity)){
-            throw new BusinessException("User does not exist!");
+            throw new com.xufq.practicecore.exception.BusinessException("User does not exist!");
         }
         userEntity = UserEntity.builder()
                 .accountName(accountName)
