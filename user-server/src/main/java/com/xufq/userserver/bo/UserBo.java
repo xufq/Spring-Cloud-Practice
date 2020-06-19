@@ -21,4 +21,6 @@ public class UserBo {
     private String userName;
     @NotNull
     private String password;
+    @NotNull
+    private String roleCode;
 }
