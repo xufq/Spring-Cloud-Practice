@@ -48,3 +48,5 @@ com:
         user-name: userserver
         password: userserver
 #      not-filter-urls: /user/**,/product/**
+      token:
+        validate-expired: true

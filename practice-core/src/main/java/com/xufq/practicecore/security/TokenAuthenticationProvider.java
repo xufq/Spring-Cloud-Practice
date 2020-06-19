@@ -2,9 +2,11 @@ package com.xufq.practicecore.security;
 
 import com.xufq.practicecore.client.LoginFeignClient;
 import com.xufq.practicecore.vo.UserVo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -16,7 +18,11 @@ import java.util.Objects;
  * @Date 3/3/2020 04:23 PM
  * @Version 1.0
  */
+@Component
 public class TokenAuthenticationProvider implements AuthenticationProvider {
+
+    @Value("${com.xufq.security.token.validate-expired:true}")
+    private boolean validateExpired;
 
     private final LoginFeignClient loginFeignClient;
 
@@ -43,6 +49,6 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     }
 
     private boolean expired(UserVo userVo) {
-        return Objects.isNull(userVo) ? true : userVo.getExpiredDate().isBefore(LocalDateTime.now());
+        return validateExpired && userVo.getExpiredDate().isBefore(LocalDateTime.now());
     }
 }
