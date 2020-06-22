@@ -5,7 +5,7 @@ import com.xufq.loginserver.exception.InternalException;
 import com.xufq.loginserver.utils.CaptchaUtil;
 import com.xufq.loginserver.utils.RedisUtil;
 import com.xufq.loginserver.vo.ImageCodeVo;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
  */
 @Controller
 @RequestMapping("/captcha")
-@Log
+@Slf4j
 public class CaptchaController {
 
     private final long effectiveTime = 15 * 60;
@@ -53,7 +53,7 @@ public class CaptchaController {
             redisUtil.set(getCaptchaKey(authenticationId), imageCodeVo);
             CaptchaUtil.output(image, response.getOutputStream());
         } catch (IOException e) {
-            log.warning("图片输出错误！");
+            log.warn("图片输出错误！");
             throw new InternalException();
         }
     }

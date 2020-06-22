@@ -1,13 +1,13 @@
 package com.xufq.loginserver.utils;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 @Component
-@Log
+@Slf4j
 public class RedisUtil {
     private final RedisTemplate redisTemplate;
 
@@ -26,7 +26,7 @@ public class RedisUtil {
             ValueOperations operations = redisTemplate.opsForValue();
             return (T) operations.get(key);
         } catch (Exception ex) {
-            log.warning("Redis类型转换失败。key: " + key);
+            log.warn("Redis类型转换失败。key: " + key);
         }
         return null;
     }

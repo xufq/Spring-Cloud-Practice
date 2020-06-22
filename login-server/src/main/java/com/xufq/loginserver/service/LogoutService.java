@@ -3,13 +3,13 @@ package com.xufq.loginserver.service;
 import com.xufq.loginserver.exception.InternalException;
 import com.xufq.loginserver.utils.RedisUtil;
 import com.xufq.loginserver.vo.UserVo;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
-@Log
+@Slf4j
 public class LogoutService {
 
     private final RedisUtil redisUtil;
@@ -25,7 +25,7 @@ public class LogoutService {
         }
         boolean result = redisUtil.del(redisUtil.getUserInfoKey(token));
         if (!result) {
-            log.warning("Delete token Failed!");
+            log.warn("Delete token Failed!");
         }
     }
 }

@@ -10,7 +10,7 @@ import com.xufq.loginserver.utils.RedisUtil;
 import com.xufq.loginserver.utils.UUIDUtil;
 import com.xufq.loginserver.vo.ImageCodeVo;
 import com.xufq.loginserver.vo.UserVo;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import static java.time.temporal.ChronoUnit.MINUTES;
  * @Date 8/1/2019 10:13 PM
  * @Version 1.0
  */
-@Log
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class LoginService {

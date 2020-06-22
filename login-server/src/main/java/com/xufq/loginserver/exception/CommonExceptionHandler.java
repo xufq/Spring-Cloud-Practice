@@ -1,13 +1,11 @@
 package com.xufq.loginserver.exception;
 
 import com.xufq.loginserver.vo.HttpErrorResponse;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import static com.mysql.cj.conf.PropertyKey.logger;
 
 /**
  * @ClassName ExceptionHandler
@@ -17,7 +15,7 @@ import static com.mysql.cj.conf.PropertyKey.logger;
  * @Version 1.0
  */
 @RestControllerAdvice
-@Log
+@Slf4j
 public class CommonExceptionHandler {
 
     @ExceptionHandler(SessionExpiredException.class)
@@ -51,7 +49,7 @@ public class CommonExceptionHandler {
     }
 
     private HttpErrorResponse convertException(BaseException ex) {
-        log.warning("===="+ex.getErrMessage());
+        log.warn("====" + ex.getErrMessage());
         return new HttpErrorResponse(ex.getErrCode(), ex.getErrMessage());
     }
 }
