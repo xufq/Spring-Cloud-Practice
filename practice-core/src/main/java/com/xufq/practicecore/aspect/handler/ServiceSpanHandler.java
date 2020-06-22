@@ -4,6 +4,7 @@ import brave.ScopedSpan;
 import brave.Span;
 import brave.Tracer;
 import brave.propagation.TraceContext;
+import com.xufq.practicecore.utils.AspectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -33,7 +34,7 @@ public class ServiceSpanHandler {
 
     @Around("com.xufq.practicecore.aspect.pointcut.MyPointCut.serviceMethod()")
     public Object doService(ProceedingJoinPoint pjp) throws Throwable{
-        log.info("method:{}", pjp.getSignature().getName());
+        log.debug("method:{}--params:{}", pjp.getSignature().getName(), AspectUtil.getParams(pjp));
         Signature methodSignature = pjp.getSignature();
         Span currentSpan = tracer.currentSpan();
         TraceContext context = currentSpan.context();
