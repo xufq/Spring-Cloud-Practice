@@ -1,6 +1,7 @@
 package com.xufq.practicecore.exception;
 
 import com.xufq.practicecore.vo.HttpErrorResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,33 +15,49 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Version 1.0
  */
 @RestControllerAdvice
+@Slf4j
 public class CommonExceptionHandler {
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HttpErrorResponse handleBadRequestException(BadRequestException ex) {
+        return convertException(ex);
+    }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public HttpErrorResponse handleSessionExpiredException(UnauthorizedException ex) {
+    public HttpErrorResponse handleUnauthorizedException(UnauthorizedException ex) {
         return convertException(ex);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HttpErrorResponse handleBusinessException(BadRequestException ex) {
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public HttpErrorResponse handleForbiddenException(ForbiddenException ex) {
         return convertException(ex);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public HttpErrorResponse handleNotFoundException(NotFoundException ex) {
+        return convertException(ex);
+    }
+
 
     @ExceptionHandler(InternalServerErrorException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public HttpErrorResponse handleInternalException(InternalServerErrorException ex) {
+        log.error("===There is an error:", ex);
         return convertException(ex);
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public HttpErrorResponse handleUnexpectedException(Throwable ex) {
+        log.error("===There is an error:", ex);
         return new HttpErrorResponse();
     }
 
     private HttpErrorResponse convertException(BaseException ex) {
+        log.debug("===There is an exception:", ex);
         return new HttpErrorResponse(ex.getErrCode(), ex.getErrMessage());
     }
 }

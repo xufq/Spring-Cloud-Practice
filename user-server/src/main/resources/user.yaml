@@ -49,4 +49,4 @@ com:
         password: userserver
 #      not-filter-urls: /user/**,/product/**
       token:
-        validate-expired: true
+        validate-expired: false

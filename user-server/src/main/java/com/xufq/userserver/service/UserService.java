@@ -10,10 +10,7 @@ import com.xufq.userserver.dao.UserRoleDao;
 import com.xufq.userserver.entity.RoleEntity;
 import com.xufq.userserver.entity.UserEntity;
 import com.xufq.userserver.entity.UserRoleEntity;
-import com.xufq.userserver.exception.ErrorCode;
-import com.xufq.userserver.exception.NotFoundResourceException;
-import com.xufq.userserver.exception.SaveOrUpdateException;
-import com.xufq.userserver.exception.BusinessException;
+import com.xufq.userserver.exception.*;
 import com.xufq.userserver.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -59,7 +56,7 @@ public class UserService {
                 .build();
         RoleEntity roleEntity = roleDao.getRole(param);
         if (Objects.isNull(roleEntity)) {
-            throw new NotFoundResourceException(ErrorCode.ROLE_NOT_FOUND);
+            throw new NotFoundTempResourceException(ErrorCode.ROLE_NOT_FOUND);
         }
         UserRoleEntity userRoleEntity = UserRoleEntity.builder()
                 .userId(userEntity.getId())
@@ -96,7 +93,7 @@ public class UserService {
     public void updateUserInfo(UserBo userBo) {
         UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(userBo.getAccountName()).build());
         if (Objects.isNull(userEntity)) {
-            throw new NotFoundResourceException(ErrorCode.USER_NOT_FOUND);
+            throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);
         }
         int updateCount = userDao.updateUser(userEntity);
         if (updateCount == 0) {
@@ -105,7 +102,7 @@ public class UserService {
         if (StringUtils.isNotEmpty(userBo.getRoleCode())) {
             RoleEntity roleEntity = roleDao.getRole(RoleEntity.builder().roleCode(userBo.getRoleCode()).build());
             if (Objects.isNull(roleEntity)) {
-                throw new NotFoundResourceException(ErrorCode.ROLE_NOT_FOUND);
+                throw new NotFoundTempResourceException(ErrorCode.ROLE_NOT_FOUND);
             }
             updateCount = userRoleDao.updateUserRole(UserRoleEntity.builder()
                     .userId(userEntity.getId())
@@ -125,7 +122,9 @@ public class UserService {
                 .accountName(passwordBo.getAccountName())
                 .build();
         UserEntity userEntity = userDao.getUser(paramEntity);
-        if (Objects.isNull(userEntity) || !EncryptUtil.match(passwordBo.getOldPassword(), userEntity.getPassword())) {
+        if (Objects.isNull(userEntity)) {
+            throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);
+        } else if (!EncryptUtil.match(passwordBo.getOldPassword(), userEntity.getPassword())) {
             throw new BusinessException(ErrorCode.USERID_PASSWORD_ERROR);
         }
         userEntity = UserEntity.builder()
@@ -142,12 +141,12 @@ public class UserService {
     public void deleteUser(String accountName) {
         UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(accountName).build());
         if (Objects.isNull(userEntity)) {
-            throw new NotFoundResourceException(ErrorCode.USER_NOT_FOUND);
+            throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);
         }
         userEntity.setDeleted(Constants.DELETED);
         int updateCount = userDao.updateUser(userEntity);
         if (updateCount == 0) {
-            throw new SaveOrUpdateException(ErrorCode.USER_UPDATE_ERROR);
+            throw new SaveOrUpdateException(ErrorCode.USER_DELETE_ERROR);
         }
         updateCount = userRoleDao.updateUserRole(UserRoleEntity.builder()
                 .userId(userEntity.getId())

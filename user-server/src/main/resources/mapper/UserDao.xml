@@ -32,10 +32,10 @@
                 user_name = #{userName}
             </if>
             <if test="password != null and password !=''">
-                password = #{password}
+                ,password = #{password}
             </if>
             <if test="deleted != null and deleted != ''">
-                deleted = #{deleted}
+                ,deleted = #{deleted}
             </if>
         </set>
         <where>
@@ -43,7 +43,7 @@
                 id = #{id}
             </if>
             <if test="accountName != null and accountName != ''">
-                account_name = #{accountName}
+                and account_name = #{accountName}
             </if>
         </where>
     </update>

@@ -10,13 +10,13 @@
     </insert>
 
     <update id="updateUserRole" parameterType="com.xufq.userserver.entity.UserRoleEntity">
-        update t_user
+        update t_user_role
         <set>
             <if test="roleId != null and roleId !=''">
                 role_id = #{roleId}
             </if>
             <if test="deleted != null and deleted != ''">
-                deleted = #{deleted}
+                ,deleted = #{deleted}
             </if>
         </set>
         <where>
@@ -24,7 +24,7 @@
                 id = #{id}
             </if>
             <if test="userId != null and userId !=''">
-                user_id = #{userId}
+                and user_id = #{userId}
             </if>
         </where>
     </update>

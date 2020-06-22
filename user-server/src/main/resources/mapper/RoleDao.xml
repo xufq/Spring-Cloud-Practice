@@ -32,10 +32,10 @@
                 role_code = #{roleCode}
             </if>
             <if test="roleName != null and roleName !=''">
-                role_name = #{roleName}
+                ,role_name = #{roleName}
             </if>
             <if test="deleted != null and deleted != ''">
-                deleted = #{deleted}
+                ,deleted = #{deleted}
             </if>
         </set>
         <where>
