@@ -1,8 +1,10 @@
 package com.xufq.practicecore.exception;
 
+import com.xufq.practicecore.constants.ErrorCode;
 import com.xufq.practicecore.vo.HttpErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,6 +35,14 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public HttpErrorResponse handleForbiddenException(ForbiddenException ex) {
         return convertException(ex);
+    }
+
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public HttpErrorResponse handleAccessDeniedException(AccessDeniedException ex) {
+        BaseException exception = new BaseException(ErrorCode.ACCESS_DENIED.name());
+        return convertException(exception);
     }
 
     @ExceptionHandler(NotFoundException.class)

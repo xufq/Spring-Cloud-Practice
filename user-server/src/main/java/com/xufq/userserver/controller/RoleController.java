@@ -1,5 +1,6 @@
 package com.xufq.userserver.controller;
 
+import com.xufq.practicecore.security.OnlyAdmin;
 import com.xufq.userserver.bo.RoleBo;
 import com.xufq.userserver.entity.RoleEntity;
 import com.xufq.userserver.exception.ErrorCode;
@@ -37,12 +38,14 @@ public class RoleController {
         return service.getRole(roleBo);
     }
 
-    @PostMapping
+    @PostMapping("private")
+    @OnlyAdmin
     public void saveRole(@RequestBody RoleBo roleBo) {
         service.saveRole(roleBo);
     }
 
-    @PutMapping
+    @PutMapping("private")
+    @OnlyAdmin
     public void updateRole(RoleBo roleBo){
         service.updateRole(roleBo);
     }

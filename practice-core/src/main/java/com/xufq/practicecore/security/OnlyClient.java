@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@PreAuthorize("hasRole('ROLE_CLIENT')")
+@PreAuthorize("hasRole('R_CLIENT')")
 public @interface OnlyClient {
 }

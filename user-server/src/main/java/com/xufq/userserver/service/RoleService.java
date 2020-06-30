@@ -1,5 +1,6 @@
 package com.xufq.userserver.service;
 
+import com.xufq.practicecore.constants.Constants;
 import com.xufq.userserver.bo.RoleBo;
 import com.xufq.userserver.dao.RoleDao;
 import com.xufq.userserver.entity.RoleEntity;
@@ -35,6 +36,7 @@ public class RoleService {
     }
 
     public void saveRole(RoleBo roleBo) {
+        roleBo.setDeleted(Constants.UNDELETED);
         RoleEntity param = getRoleEntity(roleBo);
         int saveCount = dao.saveRole(param);
         if (saveCount < 1) {

@@ -1,5 +1,6 @@
 package com.xufq.userserver.controller;
 
+import com.xufq.practicecore.security.OnlyAdmin;
 import com.xufq.userserver.bo.PasswordBo;
 import com.xufq.userserver.bo.UserBo;
 import com.xufq.userserver.service.UserService;
@@ -34,6 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/private")
+    @OnlyAdmin
     @ResponseStatus(HttpStatus.CREATED)
     public int saveUserPrivate(@RequestBody UserBo userBo) {
         return userService.saveUser(userBo);

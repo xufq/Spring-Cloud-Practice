@@ -28,11 +28,8 @@
     <update id="updateRole" parameterType="com.xufq.userserver.entity.RoleEntity">
         update t_role
         <set>
-            <if test="roleCode != null and roleCode !=''">
-                role_code = #{roleCode}
-            </if>
             <if test="roleName != null and roleName !=''">
-                ,role_name = #{roleName}
+                role_name = #{roleName}
             </if>
             <if test="deleted != null and deleted != ''">
                 ,deleted = #{deleted}
@@ -41,6 +38,9 @@
         <where>
             <if test="id != null">
                 id = #{id}
+            </if>
+            <if test="roleCode != null and roleCode !=''">
+                and role_code = #{roleCode}
             </if>
         </where>
     </update>
