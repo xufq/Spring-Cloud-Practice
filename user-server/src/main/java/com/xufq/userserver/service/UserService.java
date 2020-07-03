@@ -93,7 +93,7 @@ public class UserService {
     }
 
     public void updateUserInfo(UserBo userBo) {
-        UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(userBo.getAccountName()).build());
+        UserEntity userEntity = userDao.getUser(UserEntity.builder().uuid(userBo.getUuid()).build());
         if (Objects.isNull(userEntity)) {
             throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);
         }
@@ -121,7 +121,7 @@ public class UserService {
             throw new BusinessException(ErrorCode.CONFIRM_PASSWORD_ERROR);
         }
         UserEntity paramEntity = UserEntity.builder()
-                .accountName(passwordBo.getAccountName())
+                .uuid(passwordBo.getUuid())
                 .build();
         UserEntity userEntity = userDao.getUser(paramEntity);
         if (Objects.isNull(userEntity)) {
@@ -130,8 +130,9 @@ public class UserService {
             throw new BusinessException(ErrorCode.USERID_PASSWORD_ERROR);
         }
         userEntity = UserEntity.builder()
-                .accountName(passwordBo.getAccountName())
+                .uuid(passwordBo.getUuid())
                 .password(EncryptUtil.encode(passwordBo.getNewPassword()))
+                .version(passwordBo.getVersion())
                 .build();
         int updateCount = userDao.updateUser(userEntity);
         if (updateCount == 0) {

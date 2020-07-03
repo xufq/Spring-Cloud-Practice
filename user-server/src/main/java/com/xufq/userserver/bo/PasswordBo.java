@@ -18,8 +18,6 @@ public class PasswordBo {
     @NotNull
     private String uuid;
     @NotNull
-    private String accountName;
-    @NotNull
     private String oldPassword;
     @NotNull
     private String newPassword;
