@@ -10,6 +10,7 @@ import com.xufq.userserver.service.RoleService;
 import com.xufq.userserver.vo.RoleVo;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Objects;
 
 @RestController
@@ -40,13 +41,13 @@ public class RoleController {
 
     @PostMapping("private")
     @OnlyAdmin
-    public void saveRole(@RequestBody RoleBo roleBo) {
+    public void saveRole(@Valid @RequestBody RoleBo roleBo) {
         service.saveRole(roleBo);
     }
 
     @PutMapping("private")
     @OnlyAdmin
-    public void updateRole(RoleBo roleBo){
+    public void updateRole(@Valid RoleBo roleBo){
         service.updateRole(roleBo);
     }
 }

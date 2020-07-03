@@ -5,15 +5,15 @@
         <selectKey resultType="java.lang.Integer" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into t_user_role(user_id, role_id, deleted)
-        values(#{userId}, #{roleId}, #{deleted})
+        insert into t_user_role(user_uuid, role_uuid, deleted)
+        values(#{userUuid}, #{roleUuid}, #{deleted})
     </insert>
 
     <update id="updateUserRole" parameterType="com.xufq.userserver.entity.UserRoleEntity">
         update t_user_role
         <set>
-            <if test="roleId != null and roleId !=''">
-                role_id = #{roleId}
+            <if test="roleUuid != null and roleUuid !=''">
+                role_uuid = #{roleUuid}
             </if>
             <if test="deleted != null and deleted != ''">
                 ,deleted = #{deleted}
@@ -23,8 +23,8 @@
             <if test="id != null">
                 id = #{id}
             </if>
-            <if test="userId != null and userId !=''">
-                and user_id = #{userId}
+            <if test="userUuid != null and userUuid !=''">
+                and user_uuid = #{userUuid}
             </if>
         </where>
     </update>

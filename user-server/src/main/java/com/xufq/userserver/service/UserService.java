@@ -2,6 +2,7 @@ package com.xufq.userserver.service;
 
 import com.xufq.practicecore.constants.Constants;
 import com.xufq.practicecore.utils.EncryptUtil;
+import com.xufq.practicecore.utils.UUIDUtil;
 import com.xufq.userserver.bo.PasswordBo;
 import com.xufq.userserver.bo.UserBo;
 import com.xufq.userserver.dao.RoleDao;
@@ -40,8 +41,9 @@ public class UserService {
         this.userRoleDao = userRoleDao;
     }
 
-    public int saveUser(UserBo userBo) {
+    public String saveUser(UserBo userBo) {
         UserEntity userEntity = UserEntity.builder()
+                .uuid(UUIDUtil.getUUID())
                 .accountName(userBo.getAccountName())
                 .userName(userBo.getUserName())
                 .password(EncryptUtil.encode(userBo.getPassword()))
@@ -59,20 +61,20 @@ public class UserService {
             throw new NotFoundTempResourceException(ErrorCode.ROLE_NOT_FOUND);
         }
         UserRoleEntity userRoleEntity = UserRoleEntity.builder()
-                .userId(userEntity.getId())
-                .roleId(roleEntity.getId())
+                .userUuid(userEntity.getUuid())
+                .roleUuid(roleEntity.getUuid())
                 .deleted(Constants.UNDELETED)
                 .build();
         saveCount = userRoleDao.saveUserRole(userRoleEntity);
         if (saveCount == 0) {
             throw new SaveOrUpdateException(ErrorCode.USER_ROLE_SAVE_ERROR);
         }
-        return userEntity.getId();
+        return userEntity.getUuid();
     }
 
-    public UserVo getUserById(int userId) {
+    public UserVo getUserByUuid(String userUuid) {
         UserVo userVo = new UserVo();
-        UserEntity userEntity = userDao.getUser(UserEntity.builder().id(userId).build());
+        UserEntity userEntity = userDao.getUser(UserEntity.builder().uuid(userUuid).build());
         if (Objects.isNull(userEntity)) {
             throw new NotFoundResourceException(ErrorCode.USER_NOT_FOUND);
         }
@@ -105,8 +107,8 @@ public class UserService {
                 throw new NotFoundTempResourceException(ErrorCode.ROLE_NOT_FOUND);
             }
             updateCount = userRoleDao.updateUserRole(UserRoleEntity.builder()
-                    .userId(userEntity.getId())
-                    .roleId(roleEntity.getId())
+                    .userUuid(userEntity.getUuid())
+                    .roleUuid(roleEntity.getUuid())
                     .build());
             if (updateCount == 0) {
                 throw new SaveOrUpdateException(ErrorCode.USER_UPDATE_ERROR);
@@ -138,8 +140,8 @@ public class UserService {
 
     }
 
-    public void deleteUser(String accountName) {
-        UserEntity userEntity = userDao.getUser(UserEntity.builder().accountName(accountName).build());
+    public void deleteUser(String uuid) {
+        UserEntity userEntity = userDao.getUser(UserEntity.builder().uuid(uuid).build());
         if (Objects.isNull(userEntity)) {
             throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);
         }
@@ -149,7 +151,7 @@ public class UserService {
             throw new SaveOrUpdateException(ErrorCode.USER_DELETE_ERROR);
         }
         updateCount = userRoleDao.updateUserRole(UserRoleEntity.builder()
-                .userId(userEntity.getId())
+                .userUuid(userEntity.getUuid())
                 .deleted(Constants.DELETED)
                 .build());
         if (updateCount == 0) {

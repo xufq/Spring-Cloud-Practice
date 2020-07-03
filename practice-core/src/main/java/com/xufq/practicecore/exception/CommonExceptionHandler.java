@@ -5,6 +5,7 @@ import com.xufq.practicecore.vo.HttpErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,12 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HttpErrorResponse handleBadRequestException(BadRequestException ex) {
         return convertException(ex);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HttpErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+        return convertException(new BaseException(ex.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)

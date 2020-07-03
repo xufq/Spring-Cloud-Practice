@@ -9,11 +9,11 @@
         <if test="id != null">
             and id = #{id}
         </if>
+        <if test="uuid != null and uuid != ''">
+            and uuid = #{uuid}
+        </if>
         <if test="accountName != null and accountName != ''">
             and account_name = #{accountName}
-        </if>
-        <if test="password != null and password != ''">
-            and password = #{password}
         </if>
     </select>
 
@@ -21,15 +21,19 @@
         <selectKey resultType="java.lang.Integer" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into t_user(account_name, user_name, password, deleted)
-        values(#{accountName}, #{userName}, #{password}, #{deleted})
+        insert into t_user(uuid, account_name, user_name, password, deleted, version)
+        values(#{uuid}, #{accountName}, #{userName}, #{password}, #{deleted}, #{version})
     </insert>
 
     <update id="updateUser" parameterType="com.xufq.userserver.entity.UserEntity">
         update t_user
         <set>
+            version = version +1
+            <if test="accountName != null and accountName != ''">
+                ,account_name = #{accountName}
+            </if>
             <if test="userName != null and userName !=''">
-                user_name = #{userName}
+                ,user_name = #{userName}
             </if>
             <if test="password != null and password !=''">
                 ,password = #{password}
@@ -39,11 +43,12 @@
             </if>
         </set>
         <where>
+            version = #{version}
             <if test="id != null">
-                id = #{id}
+                and id = #{id}
             </if>
-            <if test="accountName != null and accountName != ''">
-                and account_name = #{accountName}
+            <if test="uuid != null and uuid != ''">
+                and uuid = #{uuid}
             </if>
         </where>
     </update>

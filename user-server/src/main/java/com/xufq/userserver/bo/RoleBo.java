@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class RoleBo {
-    private Integer id;
+    private String uuid;
 
     private String roleCode;
 

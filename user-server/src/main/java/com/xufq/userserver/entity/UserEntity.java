@@ -16,10 +16,12 @@ import java.time.LocalDateTime;
 @Builder
 public class UserEntity {
     private Integer id;
+    private String uuid;
     private String accountName;
     private String userName;
     private String password;
     private String deleted;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
+    private Integer version;
 }

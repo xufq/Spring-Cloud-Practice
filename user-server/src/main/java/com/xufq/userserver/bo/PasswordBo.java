@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class PasswordBo {
     @NotNull
+    private String uuid;
+    @NotNull
     private String accountName;
     @NotNull
     private String oldPassword;
@@ -23,4 +25,6 @@ public class PasswordBo {
     private String newPassword;
     @NotNull
     private String confirmPassword;
+    @NotNull
+    private Integer version;
 }

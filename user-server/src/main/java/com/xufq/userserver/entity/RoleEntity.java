@@ -10,6 +10,8 @@ public class RoleEntity {
 
     private Integer id;
 
+    private String uuid;
+
     private String roleCode;
 
     private String roleName;

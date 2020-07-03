@@ -10,9 +10,9 @@ public class UserRoleEntity {
 
     private Integer id;
 
-    private Integer userId;
+    private String userUuid;
 
-    private Integer roleId;
+    private String roleUuid;
 
     private String deleted;
 

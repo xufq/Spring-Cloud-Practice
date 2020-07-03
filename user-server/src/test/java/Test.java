@@ -1,12 +1,10 @@
 import com.xufq.practicecore.utils.EncryptUtil;
+import com.xufq.practicecore.utils.UUIDUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @ClassName Test
@@ -45,4 +43,10 @@ public class Test {
         System.out.println("match:"+EncryptUtil.match(se1,se2));
 
     }
+
+    @org.junit.Test
+    public void testUUID(){
+        System.out.println(UUIDUtil.getUUID());
+    }
+
 }

@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class UserBo {
     @NotNull
+    private String uuid;
+    @NotNull
     private String accountName;
     @NotNull
     private String userName;
@@ -23,4 +25,6 @@ public class UserBo {
     private String password;
     @NotNull
     private String roleCode;
+    @NotNull
+    private Integer version;
 }
