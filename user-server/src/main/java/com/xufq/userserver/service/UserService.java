@@ -4,7 +4,8 @@ import com.xufq.practicecore.constants.Constants;
 import com.xufq.practicecore.utils.EncryptUtil;
 import com.xufq.practicecore.utils.UUIDUtil;
 import com.xufq.userserver.bo.PasswordBo;
-import com.xufq.userserver.bo.UserBo;
+import com.xufq.userserver.bo.SaveUserBo;
+import com.xufq.userserver.bo.UpdateUserBo;
 import com.xufq.userserver.dao.RoleDao;
 import com.xufq.userserver.dao.UserDao;
 import com.xufq.userserver.dao.UserRoleDao;
@@ -41,13 +42,14 @@ public class UserService {
         this.userRoleDao = userRoleDao;
     }
 
-    public String saveUser(UserBo userBo) {
+    public String saveUser(SaveUserBo userBo) {
         UserEntity userEntity = UserEntity.builder()
                 .uuid(UUIDUtil.getUUID())
                 .accountName(userBo.getAccountName())
                 .userName(userBo.getUserName())
                 .password(EncryptUtil.encode(userBo.getPassword()))
                 .deleted(Constants.UNDELETED)
+                .version(1)
                 .build();
         int saveCount = userDao.saveUser(userEntity);
         if (saveCount == 0) {
@@ -92,7 +94,7 @@ public class UserService {
         return userVo;
     }
 
-    public void updateUserInfo(UserBo userBo) {
+    public void updateUserInfo(UpdateUserBo userBo) {
         UserEntity userEntity = userDao.getUser(UserEntity.builder().uuid(userBo.getUuid()).build());
         if (Objects.isNull(userEntity)) {
             throw new NotFoundTempResourceException(ErrorCode.USER_NOT_FOUND);

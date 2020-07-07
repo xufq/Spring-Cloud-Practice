@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName UserBo
+ * @ClassName UpdateUserBo
  * @Description create user
  * @Author fangqiang.xu
  * @Date 2/7/2020 07:35 PM
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @NoArgsConstructor
-public class UserBo {
+public class UpdateUserBo {
     @NotNull
     private String uuid;
     @NotNull

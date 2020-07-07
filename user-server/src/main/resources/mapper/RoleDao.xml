@@ -21,8 +21,8 @@
         <selectKey resultType="java.lang.Integer" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into t_role(role_code, role_name, deleted)
-        values(#{roleCode}, #{roleName}, #{deleted})
+        insert into t_role(uuid, role_code, role_name, deleted, version)
+        values(#{uuid}, #{roleCode}, #{roleName}, #{deleted}, #{version})
     </insert>
 
     <update id="updateRole" parameterType="com.xufq.userserver.entity.RoleEntity">

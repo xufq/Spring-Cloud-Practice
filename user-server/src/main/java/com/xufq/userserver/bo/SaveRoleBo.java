@@ -3,14 +3,14 @@ package com.xufq.userserver.bo;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Builder
 @Data
-public class RoleBo {
-    private String uuid;
-
+public class SaveRoleBo {
+    @NotNull
     private String roleCode;
 
+    @NotNull
     private String roleName;
-
-    private String deleted;
 }

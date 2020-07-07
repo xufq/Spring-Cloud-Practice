@@ -22,10 +22,10 @@
         t3.role_name
         from t_user t1
         inner join  t_user_role t2
-        on  t2.user_id = t1.id
+        on  t2.user_uuid = t1.uuid
         and t2.deleted = 'N'
         inner join t_role t3
-        on t2.role_id = t3.id
+        on t2.role_uuid = t3.uuid
         and t3.deleted = 'N'
         where t1.deleted = 'N'
         <if test="accountName != null and accountName != ''">
