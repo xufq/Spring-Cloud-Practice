@@ -28,5 +28,8 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="springfox.documentation" level="INFO"/>
     <logger name="org.hibernate" level="INFO"/>
+    <logger name="com.xufq.practicecore.client.LoginFeignClient" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
 </configuration>

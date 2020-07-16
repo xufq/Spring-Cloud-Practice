@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: login-server
+  security:
+    user:
+      name: loginserver
+      password: loginserver
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_cloud_practice_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    hikari:
+      maximum-pool-size: 5
+  redis:
+    database: 0
+    host: 192.168.206.129
+    port: 6379
+    password: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@localhost:8081/eureka-server/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+
+mybatis:
+  mapper-locations:
+    - mapper/*.xml
+
+com:
+  xufq:
+    enable-controller-log: true
+    enable-service-span: true
+    login:
+      expire-time: 15
+
+logging:
+  level:
+    com:
+      xufq:
+        loginserver:
+          dao: debug

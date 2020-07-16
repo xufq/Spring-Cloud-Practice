@@ -19,11 +19,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVo {
-    private Integer id;
+    private String uuid;
     private String accountName;
     private String userName;
     private String password;
     private String deleted;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
+    private Integer version;
 }

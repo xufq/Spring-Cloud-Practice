@@ -1,20 +1,17 @@
 package com.xufq.userserver.controller;
 
-import com.google.common.collect.Maps;
-import com.xufq.userserver.bo.UserBo;
+import com.xufq.practicecore.security.OnlyAdmin;
+import com.xufq.userserver.bo.PasswordBo;
+import com.xufq.userserver.bo.SaveUserBo;
+import com.xufq.userserver.bo.UpdateUserBo;
 import com.xufq.userserver.service.UserService;
 import com.xufq.userserver.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 /**
  * @ClassName UserController
@@ -30,14 +27,42 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userId}")
-    public UserVo getUserById(@PathVariable int userId) {
-        return userService.getUserById(userId);
+    @GetMapping("/uuid/{uuid}")
+    public UserVo getUserByUuid(@PathVariable String uuid){
+        return userService.getUserByUuid(uuid);
     }
 
-    @PostMapping
+    @GetMapping("/account/{accountName}")
+    public UserVo getUserByAccountName(@PathVariable String accountName) {
+        return userService.getUserByAccountName(accountName);
+    }
+
+    @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int saveUser(@RequestBody UserBo userBo) {
+    public String saveUser(@Valid @RequestBody SaveUserBo userBo) {
         return userService.saveUser(userBo);
     }
+
+    @PostMapping(value = "/private", produces = MediaType.TEXT_PLAIN_VALUE)
+    @OnlyAdmin
+    @ResponseStatus(HttpStatus.CREATED)
+    public String saveUserPrivate(@Valid @RequestBody SaveUserBo userBo) {
+        return userService.saveUser(userBo);
+    }
+
+    @PutMapping
+    public void updateUser(@Valid @RequestBody UpdateUserBo userBo) {
+        userService.updateUserInfo(userBo);
+    }
+
+    @PutMapping("/password")
+    public void updatePassword(@Valid @RequestBody PasswordBo passwordBo) {
+        userService.updatePassword(passwordBo);
+    }
+
+    @DeleteMapping("/{uuid}")
+    public void deleteUser(@PathVariable String uuid) {
+        userService.deleteUser(uuid);
+    }
+
 }

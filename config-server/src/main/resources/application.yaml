@@ -11,8 +11,12 @@ spring:
           uri: https://github.com/xufq/spring-cloud-practice
           search-paths: config-server/src/main/resources/product
           username: xufq
-          password: 
-      label: master
+          password:
+      label: dev
+  security:
+    user:
+      name: root
+      password: root
 
 eureka:
   instance:
@@ -28,6 +32,6 @@ eureka:
     availability-zones:
       SpringCloud: China,USA
     service-url:
-      China: http://localhost:8081/eureka-server/eureka,http://localhost:8082/eureka-server/eureka
-      USA: http://localhost:8083/eureka-server/eureka
+      China: http://root:root@localhost:8081/eureka-server/eureka,http://root:root@localhost:8082/eureka-server/eureka
+      USA: http://root:root@localhost:8083/eureka-server/eureka
     registry-fetch-interval-seconds: 30 # 从Eureka Server刷新注册列表的间隔

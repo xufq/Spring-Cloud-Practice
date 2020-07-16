@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufq.loginserver.dao.UserDao">
+    <resultMap id="BaseUserMap" type="com.xufq.loginserver.vo.UserVo">
+        <result property="uuid" column="uuid"/>
+        <result property="accountName" column="account_name"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <collection property="roles" javaType="java.util.ArrayList" ofType="com.xufq.loginserver.vo.RoleVo" >
+            <result property="roleCode" column="role_code" />
+            <result property="roleName" column="role_name" />
+        </collection>
+    </resultMap>
+
+    <select id="getUser"
+            parameterType="com.xufq.loginserver.entity.UserEntity"
+            resultMap="BaseUserMap">
+        select t1.id,
+        t1.uuid,
+        t1.account_name,
+        t1.user_name,
+        t1.password,
+        t3.role_code,
+        t3.role_name
+        from t_user t1
+        inner join  t_user_role t2
+        on  t2.user_uuid = t1.uuid
+        and t2.deleted = 'N'
+        inner join t_role t3
+        on t2.role_uuid = t3.uuid
+        and t3.deleted = 'N'
+        where t1.deleted = 'N'
+        <if test="accountName != null and accountName != ''">
+            and t1.account_name = #{accountName}
+        </if>
+        <if test="password != null and password != ''">
+            and t1.password = #{password}
+        </if>
+    </select>
+</mapper>
