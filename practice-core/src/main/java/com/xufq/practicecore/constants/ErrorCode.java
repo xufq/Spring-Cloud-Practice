@@ -5,5 +5,6 @@ public enum ErrorCode {
     SESSION_EXPIRED,
     CAPTCHA_EXPIRED,
     CAPTCHA_WRONG,
-    ACCESS_DENIED
+    ACCESS_DENIED,
+    VALIDATE_ERROR,
 }

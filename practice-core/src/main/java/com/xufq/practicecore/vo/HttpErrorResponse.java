@@ -3,6 +3,7 @@ package com.xufq.practicecore.vo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class HttpErrorResponse {
     private LocalDateTime timeStamps;
 
     public HttpErrorResponse() {
+        this.errors = new ArrayList<>();
         this.timeStamps = LocalDateTime.now();
     }
 
@@ -28,9 +30,8 @@ public class HttpErrorResponse {
         this.timeStamps = LocalDateTime.now();
     }
 
-    public HttpErrorResponse(List<Error> errors) {
-        this.errors = errors;
-        this.timeStamps = LocalDateTime.now();
+    public void addError(String errorCode, String errorMessage){
+        this.errors.add(new Error(errorCode,errorMessage));
     }
 
     @Data

@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Data
 public class UserVo {
+    private String uuid;
     private String accountName;
     private String userName;
     private String password;

@@ -21,6 +21,7 @@ import java.util.List;
 public class UserVo implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    private String uuid;
     private String accountName;
     private String userName;
     private String password;
