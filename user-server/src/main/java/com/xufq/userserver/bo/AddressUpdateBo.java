@@ -15,13 +15,9 @@ public class AddressUpdateBo {
     private String addressUuid;
 
     @NotNull
-    private String userUuid;
-
-    @NotNull
     private String address;
 
     @NotNull
-    @Length(min=11, max = 11)
     private Long phone;
 
     @NotNull
